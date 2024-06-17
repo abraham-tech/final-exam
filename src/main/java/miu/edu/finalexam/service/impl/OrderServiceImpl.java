@@ -6,8 +6,10 @@ import miu.edu.finalexam.dto.response.OrderResponseDto;
 import miu.edu.finalexam.model.Order;
 import miu.edu.finalexam.repository.OrderRepository;
 import miu.edu.finalexam.service.OrderService;
+import org.springframework.data.domain.*;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,5 +30,22 @@ public class OrderServiceImpl implements OrderService {
     public Optional<Order> create(Order order) {
         Order newOrder = orderRepository.save(order);
         return Optional.of(newOrder);
+    }
+
+    @Override
+    public Page<Order> findAll(int pageNumber, int pageSize, String direction, String orderBy) {
+        Pageable pageable = PageRequest.of(
+                pageNumber,
+                pageSize,
+                Sort.Direction.fromString(direction),
+                orderBy
+        );
+
+        Page<Order> orderPage = orderRepository.findAll(pageable);
+//        List
+        return new PageImpl<>(
+                orderPage.getContent(),
+                pageable,
+                orderPage.getTotalElements());
     }
 }

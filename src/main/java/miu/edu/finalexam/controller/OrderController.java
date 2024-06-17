@@ -3,9 +3,11 @@ package miu.edu.finalexam.controller;
 import lombok.RequiredArgsConstructor;
 import miu.edu.finalexam.model.Order;
 import miu.edu.finalexam.service.OrderService;
+import org.springframework.data.domain.Page;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -29,5 +31,17 @@ public class OrderController {
             return ResponseEntity.ok(newOrder.get());
         }
         return ResponseEntity.internalServerError().build();
+    }
+
+    // pagination
+    @GetMapping("/{customerId}/{pageNumber}/{pageSize}/{orderBy}")
+    public ResponseEntity<List<Order>> getOrders(
+            @PathVariable int customerId,
+            @PathVariable int pageNumber,
+            @PathVariable String direction,
+            @PathVariable String orderBy
+            ){
+
+        return ResponseEntity.notFound().build();
     }
 }

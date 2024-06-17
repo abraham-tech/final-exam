@@ -1,6 +1,7 @@
 package miu.edu.finalexam.controller;
 
 import lombok.RequiredArgsConstructor;
+import miu.edu.finalexam.exception.customer.CustomerNotFoundException;
 import miu.edu.finalexam.model.Customer;
 import miu.edu.finalexam.service.CustomerService;
 import org.springframework.http.ResponseEntity;
@@ -20,7 +21,8 @@ public class CustomerController {
         if (customer.isPresent()){
             return ResponseEntity.ok(customer.get());
         }
-        return ResponseEntity.notFound().build();
+        throw new CustomerNotFoundException("Customer not Found with id " + id);
+//        return ResponseEntity.notFound().build();
     }
 
     @PostMapping
@@ -32,3 +34,4 @@ public class CustomerController {
         return ResponseEntity.internalServerError().build();
     }
 }
+
